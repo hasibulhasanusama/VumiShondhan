@@ -1,0 +1,84 @@
+﻿:root {
+  --green:#075b32;--green2:#0a7b43;--lime:#9ed64a;
+  --ink:#17251d;--muted:#718078;--line:#e1e9e3;
+  --paper:#f5f8f5;--white:#fff;--shadow:0 14px 45px rgba(20,60,35,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Hind Siliguri",sans-serif}
+button,input,select,textarea{font:inherit}
+.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100% - 1160px)/2),24px)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--green);font-size:21px;font-weight:700}
+.brand img{width:44px;height:44px;object-fit:contain}
+.back-link{color:var(--green);text-decoration:none;font-weight:600}
+.container{width:min(100% - 36px,1000px);margin:38px auto 60px}
+.hero{text-align:center;margin-bottom:28px}
+.eyebrow,.step-label{font:800 11px Manrope,sans-serif;letter-spacing:1.7px;color:var(--green2)}
+.hero h1{font-size:clamp(28px,5vw,42px);margin:9px 0;color:var(--green)}
+.hero p,.section-heading p,.panel>p{color:var(--muted);margin:0 0 18px}
+.notice{background:#eef6ed;border:1px solid #d8e9d9;padding:13px 16px;border-radius:12px;color:#345b3d;font-size:14px;margin:16px 0}
+.progress-card,.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:var(--shadow);margin-bottom:20px}
+.progress-top{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.progress-track{height:9px;border-radius:20px;background:#e8eee9;overflow:hidden;margin:14px 0}
+#progressBar{height:100%;width:25%;background:linear-gradient(90deg,var(--green),var(--lime));border-radius:20px;transition:width .25s}
+.progress-steps{display:flex;justify-content:space-between;gap:8px;color:#87938b;font-size:12px}
+.progress-steps .active{color:var(--green);font-weight:700}
+.panel h2{font-size:25px;margin:7px 0}
+.section-heading{display:flex;justify-content:space-between;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.form-group{display:flex;flex-direction:column;gap:7px}
+.form-group label{font-weight:600;font-size:14px}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:#fff;color:var(--ink);outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green2);box-shadow:0 0 0 3px #0a7b4315}
+.full-width{grid-column:1/-1}
+.options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.option-card{display:flex;align-items:center;gap:12px;padding:15px;border:1px solid var(--line);border-radius:13px;cursor:pointer;transition:.2s}
+.option-card:has(input:checked){border-color:var(--green2);background:#f0f7f1}
+.option-card>input{accent-color:var(--green);width:17px;height:17px}
+.option-card>span{font-size:24px}
+.option-card div{display:flex;flex-direction:column}
+.option-card small{color:var(--muted);font-size:12px}
+.form-actions,.report-actions{display:flex;justify-content:space-between;gap:12px;margin:20px 0}
+.btn{border:0;border-radius:10px;padding:12px 22px;cursor:pointer;font-weight:700}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green2)}
+.btn-light,.btn-outline{background:#edf3ee;color:var(--green)}
+.review-brand{display:flex;align-items:center;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);margin-bottom:15px;color:var(--green)}
+.review-brand img{width:55px;height:55px;object-fit:contain}
+.review-brand strong{font:800 19px Manrope}
+.review-brand span{font:700 10px Manrope;color:var(--muted);margin-left:auto}
+.review-grid,.result-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.detail-item{padding:13px;background:#f7faf7;border:1px solid var(--line);border-radius:10px;min-width:0}
+.detail-item small{display:block;color:var(--muted);margin-bottom:5px}
+.detail-item strong{overflow-wrap:anywhere}
+.confirm-check{display:flex;align-items:center;gap:9px;margin-top:18px;font-weight:600}
+.confirm-check input{accent-color:var(--green);width:18px;height:18px}
+.report-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.demo-tag{background:#fff4dc;color:#8a641d;border-radius:30px;padding:7px 12px;font:800 10px Manrope;white-space:nowrap}
+.report-meta{display:flex;justify-content:space-between;gap:10px;border-block:1px solid var(--line);padding:12px 0;margin:18px 0;color:var(--muted);font-size:13px}
+.report-section{margin:22px 0}
+.report-section h3{font-size:18px;color:var(--green);border-bottom:1px solid var(--line);padding-bottom:8px}
+.illustration-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.illustration-card{border:1px solid var(--line);border-radius:13px;padding:12px;overflow:hidden}
+.illustration-card h4{margin:3px 0 10px;color:var(--green)}
+.land-svg{display:block;width:100%;height:auto;background:#f1f6ef;border-radius:8px}
+.map-placeholder{min-height:170px;border:1px dashed #a9b9ad;background:#f4f7f3;border-radius:12px;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted)}
+.result-note{background:#fff5e4;border:1px solid #f0dfbd;padding:15px;border-radius:12px;color:#71551f;font-size:13px;line-height:1.7}
+.page-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:40px}
+[hidden]{display:none!important}
+@media(max-width:650px){
+ .topbar{height:auto;min-height:66px;padding:12px 16px}.brand{font-size:17px}.brand img{width:36px;height:36px}.back-link{font-size:12px}
+ .container{width:min(100% - 22px,1000px);margin-top:24px}
+ .progress-card,.panel{padding:17px;border-radius:14px}
+ .form-grid,.options-grid,.review-grid,.result-details,.illustration-grid{grid-template-columns:1fr}
+ .progress-steps{font-size:10px}.form-actions{flex-wrap:wrap}.form-actions .btn{flex:1}
+ .report-heading{align-items:flex-start;flex-direction:column}
+ .report-meta{flex-direction:column}
+}
+@media print{
+ body{background:#fff}.topbar,.hero,.progress-card,.form-actions,.report-actions,.page-footer{display:none!important}
+ .container{width:100%;margin:0}.panel{box-shadow:none;border:0;padding:0}
+ #landSearchForm .step-panel:not([data-step="4"]){display:none!important}
+ .step-panel[data-step="4"]{display:block!important}
+ .result-note{break-inside:avoid}.illustration-card{break-inside:avoid}
+}

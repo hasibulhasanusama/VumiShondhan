@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VumiShondhan - সমন্বিত জমি অনুসন্ধান">
+  <title>সমন্বিত জমি অনুসন্ধান | VumiShondhan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/land-search.css">
+  <script src="../js/features/land-search.js" defer></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html">
+      <img src="../assets/vumishondhan-logo.png" alt="VumiShondhan Logo">
+      <span>ভূমি সন্ধান</span>
+    </a>
+    <a class="back-link" href="../index.html">← মূল পেজে ফিরে যান</a>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="eyebrow">VUMISHONDHAN LAND SERVICES</span>
+      <h1>সমন্বিত জমি অনুসন্ধান</h1>
+      <p>জমির অবস্থান ও রেকর্ডের তথ্য দিয়ে এক জায়গায় প্রয়োজনীয় তথ্য খুঁজুন।</p>
+      <div class="demo-notice">
+        <span>ⓘ</span>
+        এটি একটি ডেমো সেবা। এখানে প্রদর্শিত ফলাফল কাল্পনিক; সরকারি ভূমি রেকর্ড নয়।
+      </div>
+    </section>
+
+    <section class="search-panel">
+      <div class="section-heading">
+        <div>
+          <span class="step-label">STEP 01</span>
+          <h2>জমির পরিচিতি দিন</h2>
+          <p>যতটুকু তথ্য জানা আছে, সেগুলো পূরণ করুন।</p>
+        </div>
+        <span class="required-note">* চিহ্নিত ঘরগুলো প্রয়োজনীয়</span>
+      </div>
+
+      <form id="landSearchForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="district">জেলা <span>*</span></label>
+            <select id="district" name="district" required>
+              <option value="">জেলা নির্বাচন করুন</option>
+              <option value="ঢাকা">ঢাকা</option>
+              <option value="গাজীপুর">গাজীপুর</option>
+              <option value="নারায়ণগঞ্জ">নারায়ণগঞ্জ</option>
+              <option value="চট্টগ্রাম">চট্টগ্রাম</option>
+              <option value="রাজশাহী">রাজশাহী</option>
+              <option value="খুলনা">খুলনা</option>
+              <option value="সিলেট">সিলেট</option>
+              <option value="বরিশাল">বরিশাল</option>
+              <option value="রংপুর">রংপুর</option>
+              <option value="ময়মনসিংহ">ময়মনসিংহ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="upazila">উপজেলা / থানা <span>*</span></label>
+            <input id="upazila" name="upazila" type="text" placeholder="যেমন: সাভার" required>
+          </div>
+
+          <div class="form-group">
+            <label for="mouza">মৌজার নাম</label>
+            <input id="mouza" name="mouza" type="text" placeholder="মৌজার নাম লিখুন">
+          </div>
+
+          <div class="form-group">
+            <label for="recordType">খতিয়ানের ধরন</label>
+            <select id="recordType" name="recordType">
+              <option value="">সব ধরনের রেকর্ড</option>
+              <option value="CS">CS</option>
+              <option value="SA">SA</option>
+              <option value="RS">RS</option>
+              <option value="BS/BRS">BS / BRS</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="khatian">খতিয়ান নম্বর</label>
+            <input id="khatian" name="khatian" type="text" placeholder="খতিয়ান নম্বর লিখুন">
+          </div>
+
+          <div class="form-group">
+            <label for="dag">দাগ নম্বর</label>
+            <input id="dag" name="dag" type="text" placeholder="দাগ নম্বর লিখুন">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="deed">দলিল নম্বর (ঐচ্ছিক)</label>
+            <input id="deed" name="deed" type="text" placeholder="দলিল নম্বর লিখুন">
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="section-heading compact-heading">
+          <div>
+            <span class="step-label">STEP 02</span>
+            <h2>কোন তথ্যগুলো দেখতে চান?</h2>
+            <p>একাধিক তথ্য নির্বাচন করতে পারবেন।</p>
+          </div>
+        </div>
+
+        <div class="options-grid">
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="ownership" checked>
+            <span class="option-icon">👤</span>
+            <span><strong>মালিকানা তথ্য</strong><small>মালিকের নাম ও পরিচিতি</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="khatian" checked>
+            <span class="option-icon">📄</span>
+            <span><strong>খতিয়ান ও রেকর্ড</strong><small>খতিয়ান ও দাগের বিবরণ</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="mutation">
+            <span class="option-icon">🔄</span>
+            <span><strong>নামজারি তথ্য</strong><small>নামজারির অবস্থা</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="history">
+            <span class="option-icon">🕘</span>
+            <span><strong>রেকর্ড ইতিহাস</strong><small>পূর্ববর্তী রেকর্ডের বিবরণ</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="case">
+            <span class="option-icon">⚖️</span>
+            <span><strong>মামলার তথ্য</strong><small>মামলা সম্পর্কিত তথ্য</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="location">
+            <span class="option-icon">📍</span>
+            <span><strong>জমির অবস্থান</strong><small>এলাকা ও অবস্থানের বিবরণ</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="khas">
+            <span class="option-icon">🏛️</span>
+            <span><strong>খাস জমির অবস্থা</strong><small>খাস জমি সংক্রান্ত তথ্য</small></span>
+          </label>
+
+          <label class="option-card">
+            <input type="checkbox" name="sections" value="acquisition">
+            <span class="option-icon">📋</span>
+            <span><strong>অধিগ্রহণের অবস্থা</strong><small>সরকারি অধিগ্রহণ সংক্রান্ত তথ্য</small></span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn btn-light" id="resetButton">সব মুছুন</button>
+          <button type="submit" class="btn btn-primary" id="searchButton">
+            <span>অনুসন্ধান করুন</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="results-section" id="resultsSection" hidden aria-live="polite">
+      <div class="results-heading">
+        <div>
+          <span class="step-label">SEARCH RESULT</span>
+          <h2>অনুসন্ধানের ফলাফল</h2>
+          <p id="resultSummary"></p>
+        </div>
+        <span class="demo-tag">DEMO DATA</span>
+      </div>
+
+      <div id="resultContainer"></div>
+
+      <div class="result-actions">
+        <button type="button" class="btn btn-light" id="printButton">প্রিন্ট করুন</button>
+        <button type="button" class="btn btn-primary" id="downloadButton">রিপোর্ট ডাউনলোড</button>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <p>© 2026 VumiShondhan · ভূমি সংক্রান্ত তথ্য সহজে খুঁজুন</p>
+      <p>ডেমো তথ্য সরকারি রেকর্ডের বিকল্প নয়।</p>
+    </footer>
+  </main>
+</body>
+</html>

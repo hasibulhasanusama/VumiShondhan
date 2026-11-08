@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VumiShondhan - Professional Land Search System">
+  <title>সমন্বিত জমি অনুসন্ধান | VumiShondhan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/land-search.css">
+  <script src="../js/features/land-search.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html">
+    <img src="../assets/vumishondhan-logo.png" alt="VumiShondhan">
+    <span>ভূমি সন্ধান</span>
+  </a>
+  <a class="back-link" href="../index.html">← মূল পেজে ফিরে যান</a>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <span class="eyebrow">VUMISHONDHAN LAND SERVICES</span>
+    <h1>সমন্বিত জমি অনুসন্ধান</h1>
+    <p>জমির তথ্য দিন, প্রয়োজনীয় সেবা নির্বাচন করুন এবং একটি সাজানো রিপোর্ট তৈরি করুন।</p>
+    <div class="notice">ⓘ এটি একটি Demo System। এখানে কোনো সরকারি ডাটাবেস সংযুক্ত নেই।</div>
+  </section>
+
+  <section class="progress-card">
+    <div class="progress-top">
+      <strong id="progressTitle">Step 1 of 4 · জমির পরিচিতি</strong>
+      <strong id="progressPercent">25%</strong>
+    </div>
+    <div class="progress-track"><div id="progressBar"></div></div>
+    <div class="progress-steps">
+      <span class="active" data-progress-step="1">01 পরিচিতি</span>
+      <span data-progress-step="2">02 সেবা</span>
+      <span data-progress-step="3">03 যাচাই</span>
+      <span data-progress-step="4">04 রিপোর্ট</span>
+    </div>
+  </section>
+
+  <form id="landSearchForm">
+    <section class="panel step-panel" data-step="1">
+      <div class="section-heading">
+        <div><span class="step-label">STEP 01</span><h2>জমির পরিচিতি দিন</h2>
+        <p>আপনার জানা তথ্যগুলো পূরণ করুন।</p></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="district">জেলা *</label>
+          <select id="district" name="district" required>
+            <option value="">জেলা নির্বাচন করুন</option>
+            <option>ঢাকা</option><option>গাজীপুর</option><option>নারায়ণগঞ্জ</option>
+            <option>চট্টগ্রাম</option><option>রাজশাহী</option><option>খুলনা</option>
+            <option>সিলেট</option><option>বরিশাল</option><option>রংপুর</option>
+            <option>ময়মনসিংহ</option><option>ফরিদপুর</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="upazila">উপজেলা / থানা *</label>
+          <input id="upazila" name="upazila" required placeholder="যেমন: সাভার">
+        </div>
+        <div class="form-group">
+          <label for="mouza">মৌজার নাম</label>
+          <input id="mouza" name="mouza" placeholder="মৌজার নাম">
+        </div>
+        <div class="form-group">
+          <label for="landType">জমির ধরন *</label>
+          <select id="landType" name="landType" required>
+            <option value="">জমির ধরন নির্বাচন করুন</option>
+            <option>বসতভিটা</option><option>কৃষিজমি</option>
+            <option>খালি জমি</option><option>জলাশয়</option>
+            <option>বাণিজ্যিক জমি</option><option>রাস্তা / অন্যান্য</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="area">জমির পরিমাণ</label>
+          <input id="area" name="area" placeholder="যেমন: ১০ শতাংশ">
+        </div>
+        <div class="form-group">
+          <label for="recordType">খতিয়ানের ধরন</label>
+          <select id="recordType" name="recordType">
+            <option value="">উল্লেখ নেই</option>
+            <option>CS</option><option>SA</option><option>RS</option><option>BS/BRS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="khatian">খতিয়ান নম্বর</label>
+          <input id="khatian" name="khatian" placeholder="খতিয়ান নম্বর">
+        </div>
+        <div class="form-group">
+          <label for="dag">দাগ নম্বর</label>
+          <input id="dag" name="dag" placeholder="দাগ নম্বর">
+        </div>
+        <div class="form-group full-width">
+          <label for="deed">দলিল নম্বর</label>
+          <input id="deed" name="deed" placeholder="দলিল নম্বর (ঐচ্ছিক)">
+        </div>
+        <div class="form-group full-width">
+          <label for="description">জমি সম্পর্কে অতিরিক্ত বিবরণ</label>
+          <textarea id="description" name="description" rows="3" placeholder="জমির অবস্থান, রাস্তা বা অন্যান্য তথ্য লিখুন"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel step-panel" data-step="2" hidden>
+      <span class="step-label">STEP 02</span>
+      <h2>কোন তথ্যগুলো দেখতে চান?</h2>
+      <p>আপনার প্রয়োজনীয় সেবাগুলো নির্বাচন করুন।</p>
+<div class="options-grid">
+  <label class="option-card"><input type="checkbox" name="sections" value="ownership" checked><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><div class="info"><strong>মালিকানা তথ্য</strong><small>মালিকের পরিচিতি</small></div></label>
+  <label class="option-card"><input type="checkbox" name="sections" value="khatian" checked><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></span><div class="info"><strong>খতিয়ান ও রেকর্ড</strong><small>রেকর্ডের বিবরণ</small></div></label>
+  <label class="option-card"><input type="checkbox" name="sections" value="mutation"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></span><div class="info"><strong>নামজারি তথ্য</strong><small>নামজারি সংক্রান্ত তথ্য</small></div></label>
+  <label class="option-card"><input type="checkbox" name="sections" value="history"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><div class="info"><strong>রেকর্ড ইতিহাস</strong><small>পূর্ববর্তী রেকর্ড</small></div></label>
+<label class="option-card"><input type="checkbox" name="sections" value="case"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h18"/></svg></span><div class="info"><strong>মামলার তথ্য</strong><small>মামলা সংক্রান্ত তথ্য</small></div></label>  <label class="option-card"><input type="checkbox" name="sections" value="location"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span><div class="info"><strong>জমির অবস্থান</strong><small>অবস্থান ও এলাকা</small></div></label>
+  <label class="option-card"><input type="checkbox" name="sections" value="khas"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7h18M5 21V7M19 21V7M9 11h6M9 15h6"></path></svg></span><div class="info"><strong>খাস জমির অবস্থা</strong><small>খাস জমি সংক্রান্ত তথ্য</small></div></label>
+  <label class="option-card"><input type="checkbox" name="sections" value="acquisition"><span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg></span><div class="info"><strong>অধিগ্রহণের অবস্থা</strong><small>সরকারি অধিগ্রহণ</small></div></label>
+</div>
+    </section>
+
+    <section class="panel step-panel" data-step="3" hidden>
+      <span class="step-label">STEP 03</span>
+      <h2>তথ্য যাচাই ও নিশ্চিত করুন</h2>
+      <p>রিপোর্ট তৈরির আগে আপনার দেওয়া তথ্যগুলো দেখে নিন।</p>
+      <div class="review-brand">
+        <img src="../assets/vumishondhan-logo.png" alt="VumiShondhan Logo">
+        <strong>VumiShondhan</strong>
+        <span>LAND INFORMATION REVIEW</span>
+      </div>
+      <div id="reviewContent" class="review-grid"></div>
+      <div class="notice">অনুগ্রহ করে নিশ্চিত করুন যে আপনার দেওয়া তথ্য সঠিক। এই ধাপে কোনো সরকারি রেকর্ড যাচাই করা হচ্ছে না।</div>
+      <label class="confirm-check"><input type="checkbox" id="confirmData"> আমি আমার দেওয়া তথ্য পর্যালোচনা করেছি এবং নিশ্চিত করছি।</label>
+    </section>
+
+    <section class="panel step-panel" data-step="4" hidden>
+      <div class="report-heading">
+        <div><span class="step-label">STEP 04</span><h2>আপনার জমির রিপোর্ট</h2><p id="resultSummary">রিপোর্ট তৈরি হয়েছে</p></div>
+        <span class="demo-tag">DEMO REPORT</span>
+      </div>
+      <div id="resultContainer"></div>
+      <div class="report-actions">
+        <button type="button" class="btn btn-outline" id="printButton">প্রিন্ট / PDF</button>
+        <button type="button" class="btn btn-primary" id="downloadButton">TXT রিপোর্ট ডাউনলোড</button>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-light" id="backButton" disabled>← Back</button>
+      <button type="button" class="btn btn-primary" id="nextButton">Next →</button>
+      <button type="button" class="btn btn-primary" id="newSearchButton" hidden>নতুন অনুসন্ধান</button>
+    </div>
+  </form>
+
+  <footer class="page-footer">
+    <p>© 2026 VumiShondhan · ভূমি সংক্রান্ত তথ্য সহজে খুঁজুন</p>
+    <p>এই Demo Report কোনো সরকারি রেকর্ড বা মালিকানার প্রমাণ নয়।</p>
+  </footer>
+</main>
+</body>
+</html>

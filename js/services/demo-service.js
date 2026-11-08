@@ -1,170 +1,275 @@
-
-/* VumiShondhan - Demo Search and Report Service */
+﻿/* VumiShondhan - PostgreSQL API Service */
 
 (() => {
   "use strict";
 
-  const records = () => window.VumiDemoData.records;
+  const API_BASE = "http://localhost:5000/api";
 
-  const normalize = value =>
-    String(value ?? "").trim().toLocaleLowerCase("bn");
+  async function request(endpoint) {
+    const response = await fetch(`${API_BASE}${endpoint}`);
+    const result = await response.json();
 
-  function findRecords(input) {
-    const keys = [
-      "district", "upazila", "mouza",
-      "khatian", "dag", "deedNo"
-    ];
+    if (!response.ok || result.status !== "success") {
+      throw new Error(result.message || "API request failed");
+    }
 
-    const supplied = keys.filter(
-      key => String(input[key] ?? "").trim() !== ""
-    );
-
-    if (!supplied.length) return [];
-
-    return records().filter(record =>
-      supplied.every(key =>
-        normalize(record[key] ?? "") === normalize(input[key])
-      )
-    );
+    return result;
   }
 
-  function run(feature, input) {
-    if (feature === "division") {
-      const area = Number(input.totalArea);
-      const count = Number(input.shareCount);
+  function queryString(data) {
+    const params = new URLSearchParams();
 
-      if (
-        !Number.isFinite(area) ||
-        area <= 0 ||
-        !Number.isInteger(count) ||
-        count <= 0
-      ) {
-        return {
-          status: "INVALID INPUT",
-          summary: "জমির পরিমাণ ও অংশের সংখ্যা সঠিকভাবে দিন।",
-          details: []
-        };
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && String(value).trim()) {
+        params.set(key, String(value).trim());
       }
+    });
 
-      return {
-        status: "CALCULATION COMPLETE",
-        summary: `প্রতি অংশে ${area / count} শতক হবে।`,
-        details: [
-          ["মোট জমি", `${area} শতক`],
-          ["অংশের সংখ্যা", count],
-          ["প্রতি অংশ", `${area / count} শতক`]
-        ]
-      };
-    }
+    return params.toString();
+  }
 
-    if (feature === "law") {
-      const guide = window.VumiDemoData.guides[input.topic];
-
-      if (!guide) {
-        return {
-          status: "INFORMATION NOT FOUND",
-          summary: "এই বিষয়ের গাইড পাওয়া যায়নি।",
-          details: []
-        };
-      }
-
-      return {
-        status: "GENERAL GUIDE",
-        summary: guide.title,
-        details: guide.steps.map(
-          (step, i) => [`করণীয় ${i + 1}`, step]
-        ),
-        lawyer: {
-          type: guide.lawyerType,
-          ...window.VumiDemoData.demoLawyer
-        },
-        disclaimer:
-          "সাধারণ তথ্য; এটি আইনি পরামর্শ নয়। আইনজীবীর প্রোফাইলটি কাল্পনিক।"
-      };
-    }
-
-    const matches = findRecords(input);
-
-    if (!matches.length) {
-      return {
-        status: "INFORMATION NOT FOUND",
-        summary:
-          "আপনার তথ্য পাওয়া যায়নি। এটি শুধু ডেমো ডেটায় না মেলার ফলাফল।",
-        details: [],
-        disclaimer:
-          "এতে বাস্তব জমির অস্তিত্ব বা অবস্থা সম্পর্কে সিদ্ধান্ত নেওয়া যাবে না।"
-      };
-    }
-
-    const record = matches[0];
-
-    let status = "DEMO MATCH";
-    let summary =
-      "তথ্য নমুনা রেকর্ডের সঙ্গে মিলেছে; এটি সরকারি যাচাই নয়।";
-
-    if (
-      record.recordOwner &&
-      record.documentOwner &&
-      normalize(record.recordOwner) !== normalize(record.documentOwner)
-    ) {
-      status = "REVIEW REQUIRED";
-      summary =
-        "দলিল ও রেকর্ডে মালিকের নামের অমিল আছে। মূল নথি যাচাই করুন।";
-    }
-
-    const details = [
-      ["নমুনা রেকর্ড ID", record.id],
-      ["জেলা", record.district],
-      ["উপজেলা", record.upazila],
-      ["মৌজা", record.mouza],
-      ["খতিয়ান নম্বর", record.khatian],
-      ["দাগ নম্বর", record.dag],
-      ["রেকর্ডে থাকা মালিকের নাম",
-        record.recordOwner || record.owner || "তথ্য নেই"],
-      ["দলিলে থাকা মালিকের নাম",
-        record.documentOwner || "তথ্য নেই"],
-      ["পূর্ববর্তী মালিকের নাম",
-        record.previousOwner || "তথ্য নেই"],
-      ["জমির পরিমাণ", `${record.area} শতক`]
-    ];
-
-    const extras = {
-      mutation: [
-        ["নামজারির নমুনা তথ্য", record.mutationStatus]
-      ],
-      case: [
-        ["মামলার নমুনা তথ্য", record.caseStatus]
-      ],
-      khas: [
-        ["খাস জমির নমুনা তথ্য", record.khasStatus]
-      ],
-      acquisition: [
-        ["অধিগ্রহণের নমুনা তথ্য", record.acquisitionStatus]
-      ],
-      document: [
-        ["নমুনা দলিল নম্বর", record.deedNo],
-        ["নমুনা সমস্যা", record.issue]
-      ],
-      map: [
-        ["ম্যাপ", "প্রকৃত ম্যাপ সংযুক্ত করা হয়নি"]
-      ],
-      inheritance: [
-        ["উত্তরাধিকার", "এই ডেমো প্রকৃত উত্তরাধিকারীর অংশ নির্ধারণ করে না"]
-      ]
+  function notFound(message = "কোনো মিল পাওয়া যায়নি।") {
+    return {
+      status: "তথ্য পাওয়া যায়নি",
+      summary: message,
+      details: [],
+      disclaimer: "এটি কাল্পনিক demo তথ্য। সরকারি ভূমি রেকর্ড নয়।"
     };
+  }
+
+  function landDetails(land) {
+    return [
+      ["জেলা", land.district],
+      ["উপজেলা", land.upazila],
+      ["মৌজা", land.mouza],
+      ["খতিয়ান নম্বর", land.khatian_no],
+      ["দাগ নম্বর", land.dag_no],
+      ["মালিকের নাম", land.owner_name],
+      ["জমির পরিমাণ", land.land_area_decimal ? `${land.land_area_decimal} শতক` : "তথ্য নেই"],
+      ["জমির ধরন", land.land_type],
+      ["জমির অবস্থা", land.land_status],
+      ["Land ID", land.id]
+    ].filter(item => item[1] !== undefined && item[1] !== null);
+  }
+
+  async function searchLand(data) {
+    const query = queryString({
+      district: data.district,
+      upazila: data.upazila,
+      mouza: data.mouza,
+      khatian: data.khatian,
+      dag: data.dag
+    });
+
+    const result = await request(`/lands/search?${query}`);
+
+    if (!result.data?.length) {
+      return notFound("এই তথ্য অনুযায়ী কোনো demo জমির রেকর্ড পাওয়া যায়নি।");
+    }
+
+    const land = result.data[0];
 
     return {
-      status,
-      summary,
-      details: [...details, ...(extras[feature] || [])],
-      disclaimer:
-        "DEMO ONLY — কোনো সরকারি ডেটাবেসে অনুসন্ধান করা হয়নি।"
+      status: "DEMO MATCH",
+      summary: `${result.total}টি সম্ভাব্য demo রেকর্ড পাওয়া গেছে।`,
+      details: landDetails(land),
+      disclaimer: result.message
     };
+  }
+
+  async function verifyDocument(data) {
+    const query = queryString({
+      document_no: data.deedNo,
+      district: data.district,
+      khatian: data.khatian,
+      dag: data.dag
+    });
+
+    const result = await request(`/documents/verify?${query}`);
+
+    if (!result.data?.length) {
+      return notFound("এই তথ্য অনুযায়ী কোনো demo দলিল পাওয়া যায়নি।");
+    }
+
+    const document = result.data[0];
+
+    return {
+      status: "DEMO DOCUMENT FOUND",
+      summary: `${result.total}টি demo দলিলের রেকর্ড পাওয়া গেছে।`,
+      details: [
+        ["দলিল নম্বর", document.document_no],
+        ["দলিলের ধরন", document.document_type],
+        ["দলিলের তারিখ", document.issue_date || "তথ্য নেই"],
+        ["যাচাইয়ের অবস্থা", document.verification_status],
+        ["মালিকের নাম", document.owner_name],
+        ["জেলা", document.district],
+        ["উপজেলা", document.upazila],
+        ["মৌজা", document.mouza],
+        ["খতিয়ান", document.khatian_no],
+        ["দাগ", document.dag_no],
+        ["Land ID", document.land_id]
+      ],
+      disclaimer: result.message
+    };
+  }
+
+  async function inheritance(data) {
+    const query = queryString({
+      district: data.district,
+      mouza: data.mouza,
+      khatian: data.khatian
+    });
+
+    const search = await request(`/lands/search?${query}`);
+
+    if (!search.data?.length) {
+      return notFound("উত্তরাধিকার তথ্যের জন্য কোনো matching demo জমি পাওয়া যায়নি।");
+    }
+
+    const land = search.data[0];
+    const result = await request(`/inheritance/${land.id}`);
+
+    return {
+      status: "DEMO OWNERSHIP INFORMATION",
+      summary: `${result.total_owners} জনের demo মালিকানা তথ্য পাওয়া গেছে।`,
+      details: [
+        ["জেলা", result.land.district],
+        ["উপজেলা", result.land.upazila],
+        ["মৌজা", result.land.mouza],
+        ["খতিয়ান", result.land.khatian_no],
+        ["দাগ", result.land.dag_no],
+        ["জমির পরিমাণ", `${result.land.land_area_decimal} শতক`],
+        ["নির্বাচিত সম্পর্ক", data.relationship || "উল্লেখ করা হয়নি"],
+        ...result.owners.map((owner, index) => [
+          `মালিক ${index + 1}`,
+          `${owner.owner_name} — ${owner.share} (${owner.percentage}%)`
+        ])
+      ],
+      disclaimer: result.message
+    };
+  }
+
+  async function law(data) {
+    const topicMap = {
+      "খতিয়ান ও দাগ": "Land Record",
+      "নামজারি": "Mutation",
+      "দলিল নিবন্ধন": "Document",
+      "উত্তরাধিকার": "Inheritance"
+    };
+
+    const topic = data.topic || "";
+    const category = topicMap[topic];
+    const query = category
+      ? queryString({ category })
+      : queryString({ search: topic });
+
+    const result = await request(`/law?${query}`);
+
+    if (!result.data?.length) {
+      return notFound("এই বিষয়ের কোনো demo guide এখনো database-এ নেই।");
+    }
+
+    return {
+      status: "DEMO GUIDE FOUND",
+      summary: `${result.total}টি শিক্ষামূলক demo guide পাওয়া গেছে।`,
+      details: result.data.flatMap((guide, index) => [
+        [`গাইড ${index + 1}`, guide.title],
+        ["বিষয়", guide.category],
+        ["বিস্তারিত", guide.content],
+        ["Source note", guide.source_note]
+      ]),
+      disclaimer: result.message
+    };
+  }
+
+  async function report(data) {
+    const query = queryString({
+      district: data.district,
+      upazila: data.upazila,
+      mouza: data.mouza,
+      khatian: data.khatian,
+      dag: data.dag
+    });
+
+    const search = await request(`/lands/search?${query}`);
+
+    if (!search.data?.length) {
+      return notFound("রিপোর্ট তৈরির জন্য কোনো matching demo জমি পাওয়া যায়নি।");
+    }
+
+    const land = search.data[0];
+    const result = await request(`/reports/${land.id}`);
+    const reportData = result.report;
+
+    const details = [
+      ...landDetails(reportData.land),
+      ["মোট মালিক", reportData.ownership.total_owners],
+      ["মোট দলিল", reportData.documents.total],
+      ["মোট নামজারি রেকর্ড", reportData.mutations.total],
+      ["মোট মামলা রেকর্ড", reportData.cases.total]
+    ];
+
+    reportData.ownership.records.forEach((owner, index) => {
+      details.push([
+        `মালিক ${index + 1}`,
+        `${owner.owner_name} (${owner.share_numerator}/${owner.share_denominator})`
+      ]);
+    });
+
+    reportData.documents.records.forEach((document, index) => {
+      details.push([
+        `দলিল ${index + 1}`,
+        `${document.document_no} — ${document.verification_status}`
+      ]);
+    });
+
+    reportData.mutations.records.forEach((mutation, index) => {
+      details.push([
+        `নামজারি ${index + 1}`,
+        `${mutation.application_no} — ${mutation.application_status}`
+      ]);
+    });
+
+    reportData.cases.records.forEach((item, index) => {
+      details.push([
+        `মামলা ${index + 1}`,
+        `${item.case_no} — ${item.case_status}`
+      ]);
+    });
+
+    return {
+      status: "DEMO REPORT GENERATED",
+      summary: "Database থেকে সমন্বিত demo রিপোর্ট তৈরি হয়েছে।",
+      details,
+      disclaimer: result.message
+    };
+  }
+
+  async function run(feature, data) {
+    switch (feature) {
+      case "search":
+        return searchLand(data);
+
+      case "document":
+        return verifyDocument(data);
+
+      case "inheritance":
+        return inheritance(data);
+
+      case "law":
+        return law(data);
+
+      case "report":
+        return report(data);
+
+      default:
+        throw new Error("Unknown feature: " + feature);
+    }
   }
 
   function makeReport(title, result) {
     return [
-      "VumiShondhan — Demo Report",
+      "VumiShondhan - Demo Report",
       "==========================",
       `Feature: ${title}`,
       `Status: ${result.status}`,
@@ -174,12 +279,12 @@
         ([label, value]) => `${label}: ${value ?? "তথ্য নেই"}`
       ),
       "",
-      result.lawyer
-        ? `বিশেষজ্ঞ: ${result.lawyer.type}\n${result.lawyer.name}\n${result.lawyer.qualification}\n${result.lawyer.contact}`
-        : "",
-      result.disclaimer || "এটি ডেমো রিপোর্ট।"
+      result.disclaimer || "Fictional demo information only."
     ].join("\n");
   }
 
-  window.VumiDemoService = { run, makeReport };
+  window.VumiDemoService = {
+    run,
+    makeReport
+  };
 })();

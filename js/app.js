@@ -203,23 +203,26 @@ $$('[data-service]').forEach(card => {
   card.addEventListener('click', () => {
     const serviceId = card.dataset.service;
 
+    // Login check
+    const currentUser = window.VumiAuth?.getCurrentUser();
+
+    if (!currentUser) {
+      showToast('এই Feature ব্যবহার করতে আগে Login করুন।', 'error');
+      return;
+    }
+
+    // Feature 1: Open standalone Land Search page
+    if (serviceId === 'search') {
+      window.location.href = 'pages/land-search.html';
+      return;
+    }
+
+    // Other services
     if (!serviceInfo[serviceId]) {
       showToast('এই Service এখন উপলভ্য নয়।', 'error');
       return;
     }
 
-
-
-const currentUser = window.VumiAuth?.getCurrentUser();
-
-if (!currentUser) {
-  showToast('এই Feature ব্যবহার করতে আগে Login করুন।', 'error');
-  return;
-}
-
-
-
-    // Login করা থাকলে সংশ্লিষ্ট Feature Form খুলবে
     if (typeof window.openVumiFeature === 'function') {
       window.openVumiFeature(serviceId);
     } else {
@@ -230,7 +233,6 @@ if (!currentUser) {
     }
   });
 });
-
 /* ==========================================================================
    7. Land Search Form Submission Controller
    ========================================================================== */
